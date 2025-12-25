@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: discord-feedback-server
+  namespace: discord-feedback-server
+  labels:
+    app: discord-feedback-server-deploy
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: discord-feedback-server-deploy
+  template:
+    metadata:
+      labels:
+        app: discord-feedback-server-deploy
+    spec:
+      containers:
+        - name: discord-feedback-server
+          image: quangtruong452001/discord-feedback-server:newTag
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: DEV_APP_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: discord-feedback-server-config
+                  key: DEV_APP_PORT
+            - name: MONGODB_CONNECTION_STRING
+              valueFrom:
+                secretKeyRef:
+                  name: discord-feedback-server-secrets
+                  key: MONGODB_CONNECTION_STRING

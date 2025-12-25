@@ -1,0 +1,6 @@
+apiVersion: apps/v1
+kind: ConfigMap
+metadata:
+  name: discord-feedback-server-config
+data: 
+  DEV_APP_PORT: "3055"
